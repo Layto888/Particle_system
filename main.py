@@ -14,7 +14,7 @@ def main():
     test = Environment(
         1080,  # width
         720,   # height
-        False,  # full screen
+        False, # full screen
         'Particle Demo'  # window title
     )
     p = (300, 500)
