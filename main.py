@@ -16,15 +16,12 @@ def main():
         False,  # full screen
         'Particle Demo'  # window title
     )
-
     start_position = (300, 500)
     test.load_complete(ParticlesEngine(start_position))
-
     # go play
     test.gInstance.main_loop()
     # quit
     # test.destroy()
-
 
 if __name__ == "__main__":
     main()
