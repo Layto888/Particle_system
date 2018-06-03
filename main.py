@@ -5,6 +5,7 @@ Author: Amardjia Amine
 
 from laylib.environment import *
 from particle import ParticlesEngine
+import pygame as pg
 
 
 def main():
@@ -16,12 +17,12 @@ def main():
         False,  # full screen
         'Particle Demo'  # window title
     )
-    start_position = (300, 500)
-    test.load_complete(ParticlesEngine(start_position))
+    test.load_complete(ParticlesEngine(pg.mouse.get_pos()))
     # go play
     test.gInstance.main_loop()
     # quit
     # test.destroy()
+
 
 if __name__ == "__main__":
     main()
