@@ -4,7 +4,6 @@ Author: Amardjia Amine
 """
 import pygame as pg
 from random import uniform
-from random import choice
 from random import randint
 from laylib import util
 
@@ -14,14 +13,15 @@ Parameters:
 2. speed of particles on move
 3. the duration of each particle between creation and death
 4. the radius of each particle
-5. the thikness
+5. the field of generated particle
+6. the particles colors.
 """
-
 PARTICLES_NUM = 1000
-PARTICLE_MAX_SPEED = 1.04
-PARTICLE_DURATION = 900
-PARTICLE_RADIUS = 5
-THIKNESS = 10.0
+PARTICLE_MAX_SPEED = 0.9
+PARTICLE_DURATION = 500
+PARTICLE_RADIUS = 9
+THIKNESS = 15
+COLOR_RANGE = (80, 255)
 
 
 class Particle(object):
@@ -31,12 +31,13 @@ class Particle(object):
 
     def __init__(self, pos, vel, radius, color):
         self.x, self.y = pos
+        self.y_vel = vel
         self.x_vel, self.y_vel = vel
         self.radius = radius
         self.color = color
         # in ms.
-        self.duration = randint(
-            PARTICLE_DURATION / 2, PARTICLE_DURATION)
+        self.duration = uniform(
+            PARTICLE_DURATION / 3, PARTICLE_DURATION)
         self.startTime = util.get_time()
         self.screen = pg.display.get_surface()
         self.boundary = self.screen.get_rect()
@@ -44,7 +45,7 @@ class Particle(object):
 
     def update(self, dt):
         # update the move of particles
-        self.x += uniform(-1.5, 1.5) * dt
+        self.x += uniform(-0.5, 2.5) * dt
         self.y += self.y_vel * dt
         self.x = int(self.x)
         self.y = int(self.y)
@@ -75,11 +76,11 @@ class ParticlesEngine(object):
         # generate a group of particles using the defined parameters
         this_pos = (pos[0] + uniform(-THIKNESS, THIKNESS * 2),
                     pos[1] + uniform(-THIKNESS, THIKNESS * 0.5))
-        this_vel = (uniform(-0.5, 0.5),
-                    uniform(-PARTICLE_MAX_SPEED, PARTICLE_MAX_SPEED))
-        this_radius = randint(1, PARTICLE_RADIUS)
-        this_color = choice([(255, 232, 8), (255, 206, 0),
-                             (255, 154, 0), (255, 90, 0), (255, 90, 0)])
+        this_vel = (uniform(-0.15, 0.15),
+                    uniform(-PARTICLE_MAX_SPEED, 0.05))
+        this_radius = uniform(0.1, PARTICLE_RADIUS)
+        color_choice = randint(*COLOR_RANGE)
+        this_color = (color_choice, color_choice, color_choice)
         return Particle(this_pos, this_vel, this_radius, this_color)
 
     def update(self, dt):
